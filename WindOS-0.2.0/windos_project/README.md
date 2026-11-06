@@ -1,23 +1,47 @@
 # WindOS 0.2 — Breeze Desktop (Rust)
 
-WindOS is a desktop-environment concept emulated in a native application window. Its interface blends a Windows-like launcher and taskbar with a Linux-inspired sidebar, terminal, and system controls. This is a desktop simulation, not a bootable operating system.
+WindOS is a desktop-environment concept emulated in a native application window. Its interface combines a familiar desktop/taskbar with a Linux-inspired launcher, terminal, virtual filesystem, and software manager.
 
 ## Run
-
-Install a current Rust toolchain, then from this directory run:
 
 ```bash
 cargo run
 ```
 
-The first build downloads the Rust crates. On Linux, the windowing backend may require system development packages such as X11/Wayland and OpenGL libraries, depending on your distribution.
+The first build downloads Rust crates. The virtual root defaults to `~/.windos` (or `%USERPROFILE%\\.windos` on Windows); set `WINDOS_ROOT` to use another sandbox directory.
 
-## Desktop features
+## Desktop apps
 
-- Sign-in screen and a dark “Midnight Breeze” theme
-- Launcher sidebar, pinned apps, taskbar, and status panel
-- Windowed terminal with basic WindOS demo commands
-- Virtual home-directory file browser and settings window
-- Toggleable emulated Game Mode
+- **Terminal:** built-in commands include `help`, `pwd`, `ls`, `cd`, `cat`, `mkdir`, `touch`, and `gamemode on|off|status`.
+- **File Explorer:** browse and create files/folders in the virtual root. It does not expose host paths.
+- **Software Store:** browse the local demo catalog and install/remove packages.
+- **Settings:** toggle the emulated Game Mode and review account/root information.
 
-The default admin account is configured in `src/lib.rs` as `caleb`. The password is a development default; change it before sharing or exposing the application. This demo currently authenticates against that configured credential and does not provide production account storage.
+## `winst` package commands
+
+Read-only commands do not require elevation:
+
+```text
+winst help
+winst list
+winst search games
+winst info raceline
+winst history
+```
+
+Emulated system-changing commands require an administrator password confirmation in the GUI:
+
+```text
+sudo winst install raceline
+sudo winst remove raceline
+sudo winst update
+sudo winst upgrade
+sudo winst autoremove
+sudo winst clean
+```
+
+The package catalog/state is a local simulation; it does not download, run, or install host operating-system packages. Installed package state is stored as JSON under the WindOS virtual root.
+
+## Authentication warning
+
+The development admin account is currently configured in `src/lib.rs`. Do not distribute this demo with hard-coded credentials; replace it with secure per-user password hashing and a proper first-run account setup before exposing it to others.
