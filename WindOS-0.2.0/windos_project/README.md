@@ -1,19 +1,23 @@
-# WindOS 0.2 — Rust port
+# WindOS 0.2 — Breeze Desktop (Rust)
 
-This project has been migrated from the original Python implementation to a Rust-based CLI and authentication flow. The admin account is configured as:
-
-- Username: `caleb`
-- Password: `Wsaderqt!212`
+WindOS is a desktop-environment concept emulated in a native application window. Its interface blends a Windows-like launcher and taskbar with a Linux-inspired sidebar, terminal, and system controls. This is a desktop simulation, not a bootable operating system.
 
 ## Run
 
+Install a current Rust toolchain, then from this directory run:
+
 ```bash
-cd WindOS-0.2.0/windos_project
-cargo run --quiet
+cargo run
 ```
 
-## Notes
+The first build downloads the Rust crates. On Linux, the windowing backend may require system development packages such as X11/Wayland and OpenGL libraries, depending on your distribution.
 
-- The runtime keeps the default admin login in the Rust code so it can be validated quickly.
-- This crate provides a lightweight shell emulation with `help`, `wind`, `winst`, `gamemode`, and `exit` commands.
-- The Python-based project files remain in the repository, but the active implementation here is the Rust port.
+## Desktop features
+
+- Sign-in screen and a dark “Midnight Breeze” theme
+- Launcher sidebar, pinned apps, taskbar, and status panel
+- Windowed terminal with basic WindOS demo commands
+- Virtual home-directory file browser and settings window
+- Toggleable emulated Game Mode
+
+The default admin account is configured in `src/lib.rs` as `caleb`. The password is a development default; change it before sharing or exposing the application. This demo currently authenticates against that configured credential and does not provide production account storage.
